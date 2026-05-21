@@ -1,0 +1,52 @@
+name: "Railo"
+description: "Auto-fix security vulnerabilities in your PRs. Deterministic patches for SQLi, XSS, secrets, command injection, and more. No AI."
+author: "IWEB"
+
+inputs:
+  github_token:
+    description: "GitHub token for API access. Uses the automatic GITHUB_TOKEN by default."
+    required: false
+    default: ${{ github.token }}
+  mode:
+    description: "Operation mode: 'warn' posts comments with suggested fixes, 'enforce' automatically applies fixes and commits."
+    required: false
+    default: "warn"
+  base_branch:
+    description: "Base branch to compare against for detecting changed files."
+    required: false
+    default: "main"
+  max_diff_lines:
+    description: "Max lines changed per auto-fix commit (safety rail). Exceeds = no commit."
+    required: false
+    default: "500"
+  test_before_commit:
+    description: "Run tests before committing. If tests fail, no commit."
+    required: false
+    default: "false"
+  test_command:
+    description: "Command to run when test_before_commit is true (e.g. pytest, npm test)."
+    required: false
+    default: "pytest"
+
+outputs:
+  violations_found:
+    description: "Number of security violations found"
+  violations_fixed:
+    description: "Number of violations fixed (enforce mode only)"
+  status:
+    description: "Result status: success, warn_mode, no_findings, error"
+
+runs:
+  using: "docker"
+  image: "docker://ghcr.io/iwebai/railo:v2"
+  env:
+    GITHUB_TOKEN: ${{ inputs.github_token }}
+    INPUT_MODE: ${{ inputs.mode }}
+    INPUT_BASE_BRANCH: ${{ inputs.base_branch }}
+    FIXPOINT_MAX_DIFF_LINES: ${{ inputs.max_diff_lines }}
+    FIXPOINT_TEST_BEFORE_COMMIT: ${{ inputs.test_before_commit }}
+    FIXPOINT_TEST_COMMAND: ${{ inputs.test_command }}
+
+branding:
+  icon: "shield"
+  color: "purple"
