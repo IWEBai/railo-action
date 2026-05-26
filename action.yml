@@ -3,6 +3,9 @@ description: "Auto-fix security vulnerabilities in your PRs. Deterministic patch
 author: "IWEB"
 
 inputs:
+  license_key:
+    description: "Your Railo license key. Get a free key at https://railo.dev. Pass via secrets.RAILO_LICENSE_KEY."
+    required: true
   github_token:
     description: "GitHub token for API access. Uses the automatic GITHUB_TOKEN by default."
     required: false
@@ -40,6 +43,7 @@ runs:
   using: "docker"
   image: "docker://ghcr.io/iwebai/railo:v2"
   env:
+    RAILO_LICENSE_KEY: ${{ inputs.license_key }}
     GITHUB_TOKEN: ${{ inputs.github_token }}
     INPUT_MODE: ${{ inputs.mode }}
     INPUT_BASE_BRANCH: ${{ inputs.base_branch }}

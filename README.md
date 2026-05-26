@@ -6,7 +6,9 @@ Railo scans every PR for known vulnerability patterns and opens a companion Fix 
 
 ## Quick Start
 
-Add `.github/workflows/railo.yml` to your repository:
+1. **Get your free license key** at [railo.dev](https://railo.dev)
+2. **Add it as a repository secret** named `RAILO_LICENSE_KEY`
+3. **Create** `.github/workflows/railo.yml`:
 
 ```yaml
 name: Railo
@@ -30,10 +32,9 @@ jobs:
       - name: Railo
         uses: IWEBai/railo-action@v2
         with:
+          license_key: ${{ secrets.RAILO_LICENSE_KEY }}
           mode: warn
           base_branch: ${{ github.base_ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 Open a PR and Railo scans automatically.
@@ -64,13 +65,14 @@ Start with `warn` to see what Railo finds before enabling auto-fix.
 
 ## Inputs
 
-| Input | Default | Description |
-|-------|---------|-------------|
-| `mode` | `warn` | `warn` or `enforce` |
-| `base_branch` | `main` | Branch to diff against |
-| `max_diff_lines` | `500` | Safety limit on fix size |
-| `test_before_commit` | `false` | Run tests before committing (enforce mode) |
-| `test_command` | `pytest` | Test command when `test_before_commit` is true |
+| Input | Required | Default | Description |
+|-------|----------|---------|-------------|
+| `license_key` | Yes | — | Your Railo license key. Get a free key at [railo.dev](https://railo.dev). |
+| `mode` | No | `warn` | `warn` or `enforce` |
+| `base_branch` | No | `main` | Branch to diff against |
+| `max_diff_lines` | No | `500` | Safety limit on fix size |
+| `test_before_commit` | No | `false` | Run tests before committing (enforce mode) |
+| `test_command` | No | `pytest` | Test command when `test_before_commit` is true |
 
 ## Configuration
 
