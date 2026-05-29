@@ -6,7 +6,7 @@ Railo scans every PR for known vulnerability patterns and opens a companion Fix 
 
 ## Quick Start
 
-1. **Get your free license key** at [railo.dev](https://railo.dev)
+1. **Get your free license key** at [railo.dev/get-key](https://railo.dev/get-key)
 2. **Add it as a repository secret** named `RAILO_LICENSE_KEY`
 3. **Create** `.github/workflows/railo.yml`:
 
