@@ -20,6 +20,8 @@ permissions:
   contents: write
   pull-requests: write
   statuses: write
+  checks: write
+  security-events: write
 
 jobs:
   railo:
