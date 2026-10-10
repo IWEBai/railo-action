@@ -1,29 +1,30 @@
 name: "Railo"
-description: "Auto-fix security vulnerabilities in your PRs. Deterministic patches for SQLi, XSS, secrets, command injection, and more. No AI."
+description: "Fixes the security findings in your pull requests as a reviewed fix PR. Deterministic rewrites, no LLM-written code; runs in your own runner."
 author: "IWEB"
 
 inputs:
   license_key:
-    description: "Your Railo license key. Get a free key at https://railo.dev. Pass via secrets.RAILO_LICENSE_KEY."
-    required: true
+    description: "Paid plans only. Without a key Railo runs on the Free tier. Pass via secrets.RAILO_LICENSE_KEY."
+    required: false
+    default: ""
   github_token:
     description: "GitHub token for API access. Uses the automatic GITHUB_TOKEN by default."
     required: false
     default: ${{ github.token }}
   mode:
-    description: "Operation mode: 'warn' posts comments with suggested fixes, 'enforce' automatically applies fixes and commits."
+    description: "'warn' comments the proposed fixes on the PR; 'enforce' opens a separate fix PR against the PR's branch. Neither commits to the contributor's branch."
     required: false
     default: "warn"
   base_branch:
-    description: "Base branch to compare against for detecting changed files."
+    description: "Branch to diff against. Leave empty to use the pull request's base branch."
     required: false
-    default: "main"
+    default: ""
   max_diff_lines:
-    description: "Max lines changed per auto-fix commit (safety rail). Exceeds = no commit."
+    description: "Largest total diff Railo will deliver in one run (safety rail)."
     required: false
     default: "500"
   test_before_commit:
-    description: "Run tests before committing. If tests fail, no commit."
+    description: "Run your tests before delivering fixes; a fix that adds a failure is dropped."
     required: false
     default: "false"
   test_command:
@@ -33,9 +34,9 @@ inputs:
 
 outputs:
   violations_found:
-    description: "Number of security violations found"
+    description: "Number of security findings"
   violations_fixed:
-    description: "Number of violations fixed (enforce mode only)"
+    description: "Number of findings fixed (enforce mode only)"
   status:
     description: "Result status: success, warn_mode, no_findings, error"
 
