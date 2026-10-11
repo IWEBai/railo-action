@@ -56,8 +56,13 @@ Fix quality is measured on every release against a benchmark of reviewed vulnera
 | Command injection (CWE-78) | `os.system("ping -c 1 " + host)` → `subprocess.run(["ping", "-c", "1", host])` |
 | Hardcoded secrets (CWE-798) | `password="..."` → `password=os.environ.get("PASSWORD")` |
 | Cross-site scripting (CWE-79) | `mark_safe("<b>" + name + "</b>")` → `format_html("<b>{}</b>", name)` |
+| Path traversal (CWE-22) | adds a check that the resolved path stays under the base directory, raising `PermissionError` otherwise |
+| XXE (CWE-611) | `xml.etree.ElementTree` → `defusedxml.ElementTree` (the fix PR says when your project must add `defusedxml`) |
+| Missing timeout (CWE-400) | `httpx.post(url, json=data)` → `httpx.post(url, json=data, timeout=10.0)` |
+| Insecure randomness (CWE-330) | `random.randint(a, b)` → `secrets.SystemRandom().randint(a, b)` |
+| Cookie flags (CWE-614/1004) | `set_cookie("session", v)` → `set_cookie("session", v, httponly=True, secure=True, samesite="Lax")` |
 
-Railo also has fixers for path traversal, missing timeouts, insecure randomness, cookie flags and XXE, and detects TypeScript findings. Those fixers are not yet on the benchmark, so review their fix PRs with extra care.
+Railo also detects TypeScript findings and reports them; TypeScript fixes are not yet on the benchmark.
 
 When Railo cannot fix something safely (for example a command whose program comes from user input), it says so in the PR rather than guessing.
 
