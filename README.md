@@ -81,6 +81,21 @@ Every fix PR needs your review before merging.
 | `max_diff_lines` | `500` | Largest total diff Railo will deliver in one run |
 | `test_before_commit` | `false` | Only for direct pushes (`RAILO_DELIVERY=push`): also run `test_command` first. Fix PRs always run your tests as described above. |
 | `test_command` | `pytest` | Command used by `test_before_commit` |
+| `sarif` | none | SARIF files from scanners you already run, as globs (e.g. `results/*.sarif`) |
+
+## Fixing findings from your own scanners
+
+If a step earlier in the job writes SARIF (CodeQL, Semgrep, Bandit, Snyk and most other scanners can), pass it in and Railo fixes those findings too:
+
+```yaml
+      - run: semgrep scan --sarif --output semgrep.sarif
+      - uses: IWEBai/railo-action@v2
+        with:
+          mode: enforce
+          sarif: semgrep.sarif
+```
+
+Railo checks these fixes by rerunning its own rules, not your scanner's, so the fix PR says the original rule was not rerun. Rescan with your scanner before merging.
 
 ## Configuration
 

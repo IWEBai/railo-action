@@ -31,6 +31,10 @@ inputs:
     description: "Command to run when test_before_commit is true (e.g. pytest, npm test)."
     required: false
     default: "pytest"
+  sarif:
+    description: "SARIF files from scanners you already run (CodeQL, Semgrep, Bandit, ...), as globs relative to the workspace, one per line or comma-separated. Their findings are fixed alongside Railo's own."
+    required: false
+    default: ""
 
 outputs:
   violations_found:
@@ -48,6 +52,7 @@ runs:
     GITHUB_TOKEN: ${{ inputs.github_token }}
     INPUT_MODE: ${{ inputs.mode }}
     INPUT_BASE_BRANCH: ${{ inputs.base_branch }}
+    INPUT_SARIF: ${{ inputs.sarif }}
     FIXPOINT_MAX_DIFF_LINES: ${{ inputs.max_diff_lines }}
     FIXPOINT_TEST_BEFORE_COMMIT: ${{ inputs.test_before_commit }}
     FIXPOINT_TEST_COMMAND: ${{ inputs.test_command }}
