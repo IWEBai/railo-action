@@ -39,7 +39,7 @@ Open a pull request and Railo runs. No license key is needed on the Free tier (3
 
 | Mode | What happens |
 |------|--------------|
-| `warn` | Railo comments the proposed fixes on your PR. Nothing is pushed. |
+| `warn` | Railo posts each proposed fix as a one-click suggestion on the lines it changes (**Commit suggestion** applies it). Nothing is pushed. |
 | `enforce` | Railo opens a separate fix PR against your PR's branch. Your branch is never changed until you merge it. |
 
 Start with `warn` to see what Railo would change.
