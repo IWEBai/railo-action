@@ -42,7 +42,7 @@ Open a pull request and Railo runs. No license key is needed on the Free tier (3
 | `warn` | Railo posts each proposed fix as a one-click suggestion on the lines it changes (**Commit suggestion** applies it). Nothing is pushed. |
 | `enforce` | Railo opens a separate fix PR against your PR's branch. Your branch is never changed until you merge it. |
 
-Start with `warn` to see what Railo would change.
+Start with `warn` to see what Railo would change. Warn mode's check is neutral, so findings never block a merge; set `fail_on_findings: true` if you want them to fail the job.
 
 A fix PR opened with the workflow's own token does not start your other workflows (a GitHub rule). Re-run your checks on the fix PR, or push to it, before merging.
 
@@ -97,6 +97,7 @@ Every fix PR needs your review before merging.
 | `max_diff_lines` | `500` | Largest total diff Railo will deliver in one run |
 | `test_before_commit` | `false` | Only for direct pushes (`RAILO_DELIVERY=push`): also run `test_command` first, inside the Action's container. |
 | `test_command` | `pytest` | Command used by `test_before_commit` |
+| `fail_on_findings` | `false` | Warn mode only: fail the job when Railo finds something |
 | `sarif` | none | SARIF files from scanners you already run, as globs (e.g. `results/*.sarif`) |
 
 ## Fixing findings from your own scanners

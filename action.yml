@@ -31,6 +31,10 @@ inputs:
     description: "Command to run when test_before_commit is true (e.g. pytest, npm test)."
     required: false
     default: "pytest"
+  fail_on_findings:
+    description: "Warn mode only: 'true' fails the job when Railo finds something. By default warn mode's check is neutral, so findings do not block a merge."
+    required: false
+    default: "false"
   sarif:
     description: "SARIF files from scanners you already run (CodeQL, Semgrep, Bandit, ...), as globs relative to the workspace, one per line or comma-separated. Their findings are fixed alongside Railo's own."
     required: false
@@ -53,6 +57,7 @@ runs:
     INPUT_MODE: ${{ inputs.mode }}
     INPUT_BASE_BRANCH: ${{ inputs.base_branch }}
     INPUT_SARIF: ${{ inputs.sarif }}
+    INPUT_FAIL_ON_FINDINGS: ${{ inputs.fail_on_findings }}
     FIXPOINT_MAX_DIFF_LINES: ${{ inputs.max_diff_lines }}
     FIXPOINT_TEST_BEFORE_COMMIT: ${{ inputs.test_before_commit }}
     FIXPOINT_TEST_COMMAND: ${{ inputs.test_command }}
