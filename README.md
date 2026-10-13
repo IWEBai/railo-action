@@ -83,7 +83,7 @@ Each fix PR states, per finding, what was checked:
 
 - **Rescan.** The rules run again on the patched file: the finding must be gone and no new finding may appear.
 - **Safe pattern present.** The rewritten code must contain the known-safe construct (a bound query parameter, an argument list, an escaping call).
-- **Tests.** When Railo finds your test suite (pytest or a `package.json` test script), it runs it before and after each fix in your runner and drops any fix that adds a failure.
+- **Your tests.** Your own CI runs on every fix PR, like on any other change. Railo also tries the project's test command before and after each fix and drops a fix that adds a failure, but it runs inside the Action's container, which does not have your project's dependencies installed, so for most projects the command cannot start there. A test command that cannot start is not counted against a fix.
 
 Every fix PR needs your review before merging.
 
@@ -95,7 +95,7 @@ Every fix PR needs your review before merging.
 | `mode` | `warn` | `warn` or `enforce` |
 | `base_branch` | the PR's base branch | Branch to diff against |
 | `max_diff_lines` | `500` | Largest total diff Railo will deliver in one run |
-| `test_before_commit` | `false` | Only for direct pushes (`RAILO_DELIVERY=push`): also run `test_command` first. Fix PRs always run your tests as described above. |
+| `test_before_commit` | `false` | Only for direct pushes (`RAILO_DELIVERY=push`): also run `test_command` first, inside the Action's container. |
 | `test_command` | `pytest` | Command used by `test_before_commit` |
 | `sarif` | none | SARIF files from scanners you already run, as globs (e.g. `results/*.sarif`) |
 
