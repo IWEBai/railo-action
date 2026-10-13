@@ -62,7 +62,18 @@ Fix quality is measured on every release against a benchmark of reviewed vulnera
 | Insecure randomness (CWE-330) | `random.randint(a, b)` → `secrets.SystemRandom().randint(a, b)` |
 | Cookie flags (CWE-614/1004) | `set_cookie("session", v)` → `set_cookie("session", v, httponly=True, secure=True, samesite="Lax")` |
 
-Railo also detects TypeScript findings and reports them; TypeScript fixes are not yet on the benchmark.
+Python also has fixes for SQL injection in Django and SQLAlchemy raw queries, server-side template injection, open redirects, disabled CSRF protection, permissive CORS with credentials, disabled TLS certificate checks, unsafe YAML loading, `eval()` on data, XML entity expansion, stack traces sent to users, and debug mode left on.
+
+Other languages, each fix class on the same benchmark:
+
+| Language | Fix classes |
+|----------|-------------|
+| JavaScript and TypeScript | SQL injection, command injection, cross-site scripting, path traversal, open redirects, hardcoded secrets, missing timeouts, insecure randomness, insecure cookies |
+| Java | SQL injection, cross-site scripting, path traversal, SSRF, hardcoded secrets |
+| Go | SQL injection, command injection, hardcoded secrets |
+| PHP | SQL injection, command injection, cross-site scripting, path traversal, unsafe `unserialize`, hardcoded secrets, insecure randomness, insecure cookies |
+
+Findings in other languages (Ruby and C#, for example) are still detected and reported, but not rewritten.
 
 When Railo cannot fix something safely (for example a command whose program comes from user input), it says so in the PR rather than guessing.
 
