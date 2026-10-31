@@ -33,7 +33,7 @@ jobs:
           mode: warn
 ```
 
-Open a pull request and Railo runs. No license key is needed on the Free tier (3 repositories, 200 scans a month). Paid plans add theirs as the `RAILO_LICENSE_KEY` secret and pass `license_key: ${{ secrets.RAILO_LICENSE_KEY }}`.
+Open a pull request and Railo runs. The Action is free: no account, no license key and no usage limit to set up.
 
 ## Modes
 
@@ -91,7 +91,7 @@ Every fix PR needs your review before merging.
 
 | Input | Default | Description |
 |-------|---------|-------------|
-| `license_key` | none | Paid plans only. |
+| `license_key` | none | Not needed. Kept so workflows that already pass it keep working. |
 | `mode` | `warn` | `warn` or `enforce` |
 | `base_branch` | the PR's base branch | Branch to diff against |
 | `max_diff_lines` | `500` | Largest total diff Railo will deliver in one run |
