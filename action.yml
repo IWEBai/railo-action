@@ -4,7 +4,7 @@ author: "IWEB"
 
 inputs:
   license_key:
-    description: "Paid plans only. Without a key Railo runs on the Free tier. Pass via secrets.RAILO_LICENSE_KEY."
+    description: "Not needed. Kept so workflows that already pass a key keep working; the Action has no usage limit."
     required: false
     default: ""
   github_token:

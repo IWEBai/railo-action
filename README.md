@@ -10,28 +10,32 @@ Create `.github/workflows/railo.yml`:
 
 ```yaml
 name: Railo
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 permissions:
-  contents: write        # enforce mode pushes the fix PR's branch; use `read` for warn mode
-  pull-requests: write   # PR comments and the fix PR
-  checks: write          # the Railo check run on your PR
-  security-events: write # optional: upload findings to GitHub code scanning
+  contents: read          # enforce mode pushes the fix PR's branch: use write
+  pull-requests: write    # suggestions on the PR, and the fix PR
+  checks: write           # the Railo check run on your PR
+  security-events: write  # optional: upload findings to GitHub code scanning
 
 jobs:
   railo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5.1.0
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
+          persist-credentials: false  # enforce mode pushes with this token: remove this line
       - uses: IWEBai/railo-action@v2
         with:
           mode: warn
 ```
+
+`actions/checkout` is pinned by commit to v5.1.0, which runs on Node 24.
 
 Open a pull request and Railo runs. The Action is free: no account, no license key and no usage limit to set up.
 
@@ -127,15 +131,16 @@ To skip paths, list them in a `.railoignore` file (same syntax as `.gitignore`).
 
 ## Privacy
 
-Scanning, fixing and testing run in your GitHub Actions runner; your source code is not sent to Railo. The Action sends usage data (organization and repository name, plan, mode, number of findings and fixes, scan duration) to railo.dev, which also enforces plan limits; set the environment variable `RAILO_TELEMETRY=0` to turn this off.
+Scanning, fixing and testing run in your GitHub Actions runner; your source code is not sent to Railo. The Action sends one usage record per run to railo.dev: organization and repository name, plan, mode, number of findings and fixes, scan duration and the Action version. Set the environment variable `RAILO_TELEMETRY=0` on the step and nothing is sent to Railo. Nothing is enforced from railo.dev; the Action has no usage limit.
 
 ## Links
 
 - [Documentation](https://railo.dev/docs)
 - [Privacy policy](https://railo.dev/privacy)
 - [Terms of service](https://railo.dev/terms)
-- [Support](mailto:support@railo.dev)
+- [Contact](mailto:zarif.latif@railo.dev)
+- [Security policy](SECURITY.md): how to report a vulnerability
 
 ## License
 
-This action is provided by IWEB. See the [terms of service](https://railo.dev/terms).
+The files in this repository are MIT licensed (see [LICENSE](LICENSE)). The engine runs from the `ghcr.io/iwebai/railo` image, which is Railo's and free to use through this Action under the [terms of service](https://railo.dev/terms).
